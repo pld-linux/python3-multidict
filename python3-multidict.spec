@@ -41,7 +41,7 @@ może wystąpić więcej niż raz w danym kontenerze.
 Summary:	API documentation for Python multidict module
 Summary(pl.UTF-8):	Dokumentacja API modułu Pythona multidict
 Group:		Documentation
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description apidocs
 API documentation for Python multidict module.
