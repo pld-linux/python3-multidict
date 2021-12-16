@@ -15,7 +15,7 @@ Source0:	https://files.pythonhosted.org/packages/source/m/multidict/multidict-%{
 # Source0-md5:	df8b37f069809779214d6b80b250e45b
 URL:		https://pypi.org/project/multidict/
 BuildRequires:	python3-devel >= 1:3.6
-BuildRequires:	python3-setuptools >= 40
+BuildRequires:	python3-setuptools >= 1:40
 %if %{with tests}
 BuildRequires:	python3-pytest
 BuildRequires:	python3-pytest-cov
