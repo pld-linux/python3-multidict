@@ -6,15 +6,15 @@
 Summary:	multidict implementation
 Summary(pl.UTF-8):	Implementacja multidict
 Name:		python3-multidict
-Version:	5.1.0
-Release:	3
+Version:	6.0.2
+Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/multidict/
 Source0:	https://files.pythonhosted.org/packages/source/m/multidict/multidict-%{version}.tar.gz
-# Source0-md5:	df8b37f069809779214d6b80b250e45b
+# Source0-md5:	f8230905ad1f50c87e8d9cc6b0bb7ca2
 URL:		https://pypi.org/project/multidict/
-BuildRequires:	python3-devel >= 1:3.6
+BuildRequires:	python3-devel >= 1:3.7
 BuildRequires:	python3-setuptools >= 1:40
 %if %{with tests}
 BuildRequires:	python3-pytest
@@ -26,7 +26,7 @@ BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	python3-alabaster
 BuildRequires:	sphinx-pdg-3
 %endif
-Requires:	python3-modules >= 1:3.6
+Requires:	python3-modules >= 1:3.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -71,16 +71,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %py3_install
 
-# extension sources
-%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/multidict/_multidict.c
-%{__rm} -r $RPM_BUILD_ROOT%{py3_sitedir}/multidict/_multilib
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGES.rst README.rst
+%doc CHANGES.rst LICENSE README.rst
 %dir %{py3_sitedir}/multidict
 %attr(755,root,root) %{py3_sitedir}/multidict/_multidict.cpython-*.so
 %{py3_sitedir}/multidict/*.py
