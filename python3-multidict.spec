@@ -20,6 +20,7 @@ BuildRequires:	python3-setuptools >= 1:40
 BuildRequires:	python3-pytest
 BuildRequires:	python3-pytest-cov
 %endif
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.752
 %if %{with doc}
