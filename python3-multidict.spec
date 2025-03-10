@@ -7,7 +7,7 @@ Summary:	multidict implementation
 Summary(pl.UTF-8):	Implementacja multidict
 Name:		python3-multidict
 Version:	6.0.4
-Release:	1
+Release:	2
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/multidict/
