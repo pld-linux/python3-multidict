@@ -25,6 +25,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.752
 %if %{with doc}
 BuildRequires:	python3-alabaster
+BuildRequires:	python3-sphinxcontrib-towncrier
 BuildRequires:	sphinx-pdg-3
 %endif
 Requires:	python3-modules >= 1:3.7
