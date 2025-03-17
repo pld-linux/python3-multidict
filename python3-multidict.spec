@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	doc	# API documentation
-%bcond_without	tests	# unit tests
+%bcond_with	tests	# unit tests
 
 Summary:	multidict implementation
 Summary(pl.UTF-8):	Implementacja multidict
@@ -58,7 +58,7 @@ Dokumentacja API modułu Pythona multidict.
 
 %if %{with tests}
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-PYTEST_PLUGINS="pytest_cov.plugin" \
+PYTHONPATH=$(readlink -f build-3/lib.*) \
 %{__python3} -m pytest tests
 %endif
 
