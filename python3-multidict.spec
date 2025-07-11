@@ -6,19 +6,22 @@
 Summary:	multidict implementation
 Summary(pl.UTF-8):	Implementacja multidict
 Name:		python3-multidict
-Version:	6.2.0
+Version:	6.6.3
 Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/multidict/
 Source0:	https://files.pythonhosted.org/packages/source/m/multidict/multidict-%{version}.tar.gz
-# Source0-md5:	bc420eca3e8462bda1c36bbf4937fa9e
+# Source0-md5:	fad2c669f1c8b1feec4568090450f3a7
 URL:		https://pypi.org/project/multidict/
-BuildRequires:	python3-devel >= 1:3.7
+BuildRequires:	python3-devel >= 1:3.9
 BuildRequires:	python3-setuptools >= 1:40
 %if %{with tests}
 BuildRequires:	python3-pytest
 BuildRequires:	python3-pytest-cov
+%if "%{_ver_lt %{py3_ver} 3.11}" == "1"
+BuildRequires:	python3-typing_extensions >= 4.1.0
+%endif
 %endif
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
@@ -28,7 +31,7 @@ BuildRequires:	python3-alabaster
 BuildRequires:	python3-sphinxcontrib-towncrier
 BuildRequires:	sphinx-pdg-3
 %endif
-Requires:	python3-modules >= 1:3.7
+Requires:	python3-modules >= 1:3.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
