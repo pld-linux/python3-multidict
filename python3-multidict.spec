@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	doc	# API documentation
-%bcond_with	tests	# unit tests
+%bcond_without	tests	# unit and benchmark tests
 
 Summary:	multidict implementation
 Summary(pl.UTF-8):	Implementacja multidict
@@ -18,6 +18,7 @@ BuildRequires:	python3-devel >= 1:3.9
 BuildRequires:	python3-setuptools >= 1:40
 %if %{with tests}
 BuildRequires:	python3-pytest
+BuildRequires:	python3-pytest-benchmark
 BuildRequires:	python3-pytest-cov
 %if "%{_ver_lt %{py3_ver} 3.11}" == "1"
 BuildRequires:	python3-typing_extensions >= 4.1.0
@@ -61,9 +62,14 @@ Dokumentacja API modułu Pythona multidict.
 %py3_build
 
 %if %{with tests}
+%{__mv} multidict{,.away}
+
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+PYTEST_PLUGINS=pytest_benchmark.plugin \
 PYTHONPATH=$(readlink -f build-3/lib.*) \
 %{__python3} -m pytest tests
+
+%{__mv} multidict{.away,}
 %endif
 
 %if %{with doc}
