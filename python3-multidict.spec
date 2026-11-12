@@ -6,23 +6,24 @@
 Summary:	multidict implementation
 Summary(pl.UTF-8):	Implementacja multidict
 Name:		python3-multidict
-Version:	6.6.3
+Version:	7.2.1
 Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/multidict/
 Source0:	https://files.pythonhosted.org/packages/source/m/multidict/multidict-%{version}.tar.gz
-# Source0-md5:	fad2c669f1c8b1feec4568090450f3a7
+# Source0-md5:	3f9f08805cdffa6469e13ef33c93d091
 URL:		https://pypi.org/project/multidict/
-BuildRequires:	python3-devel >= 1:3.9
-BuildRequires:	python3-setuptools >= 1:40
+BuildRequires:	python3-devel >= 1:3.11
+BuildRequires:	python3-setuptools >= 1:77
 %if %{with tests}
+BuildRequires:	python3-Cython >= 3.0
+BuildRequires:	python3-hypothesis
+BuildRequires:	python3-objgraph
+BuildRequires:	python3-psutil
 BuildRequires:	python3-pytest
-BuildRequires:	python3-pytest-benchmark
 BuildRequires:	python3-pytest-cov
-%if "%{_ver_lt %{py3_ver} 3.11}" == "1"
-BuildRequires:	python3-typing_extensions >= 4.1.0
-%endif
+BuildRequires:	python3-pytest_codspeed
 %endif
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
@@ -32,7 +33,7 @@ BuildRequires:	python3-alabaster
 BuildRequires:	python3-sphinxcontrib-towncrier
 BuildRequires:	sphinx-pdg-3
 %endif
-Requires:	python3-modules >= 1:3.9
+Requires:	python3-modules >= 1:3.11
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -65,7 +66,7 @@ Dokumentacja API modułu Pythona multidict.
 %{__mv} multidict{,.away}
 
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-PYTEST_PLUGINS=pytest_benchmark.plugin \
+PYTEST_PLUGINS=pytest_codspeed.plugin \
 PYTHONPATH=$(readlink -f build-3/lib.*) \
 %{__python3} -m pytest tests
 
@@ -82,6 +83,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %py3_install
 
+# test-only C API exercisers; _testcyapi is built only when Cython happens to be installed
+%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/multidict/_testcapi.cpython-*.so
+%{__rm} -f $RPM_BUILD_ROOT%{py3_sitedir}/multidict/_testcyapi.cpython-*.so
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -91,6 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{py3_sitedir}/multidict
 %attr(755,root,root) %{py3_sitedir}/multidict/_multidict.cpython-*.so
 %{py3_sitedir}/multidict/*.py
+%{py3_sitedir}/multidict/__init__.pxd
+%{py3_sitedir}/multidict/multidict_capi.h
+%{py3_sitedir}/multidict/multidict_capi_struct.h
 %{py3_sitedir}/multidict/py.typed
 %{py3_sitedir}/multidict/__pycache__
 %{py3_sitedir}/multidict-%{version}-py*.egg-info
