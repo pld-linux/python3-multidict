@@ -1,0 +1,26 @@
+_testcyapi: only _watch_refs holds the log given as user_data; the test
+empties it before md dies, so DEALLOCATED reads a freed list (segfault)
+
+--- multidict-7.2.1.orig/multidict/_testcyapi.pyx	2026-10-24 21:12:16.140715800 +0200
++++ multidict-7.2.1/multidict/_testcyapi.pyx	2026-11-12 12:51:26.364219436 +0100
+@@ -383,6 +383,9 @@
+ 
+ # See watching_event() in _testcapi.c.
+ cdef int _watch_target_id = -1
++# _watching_event() hands this log to the target watcher as user_data, so
++# it has to outlive the watched multidict, not just watch_release_refs().
++cdef object _watching_log = None
+ 
+ 
+ cdef int _watching_event(void *watcher_data, void *user_data,
+@@ -393,8 +396,9 @@
+ 
+ 
+ def md_add_watching_watcher(log, int target_id):
+-    global _watch_target_id
++    global _watch_target_id, _watching_log
+     _watch_refs.append(log)
++    _watching_log = log
+     _watch_target_id = target_id
+     return MultiDict_AddWatcher(_capi, _watching_event, <void*>log)
+ 
